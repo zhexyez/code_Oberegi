@@ -1,0 +1,146 @@
+<head>
+    <!-- You should write executor for offset -->
+    <script type="text/javascript">
+        /* Production lane */
+            function make__elem (type, identification, classification, ...offset)
+            {
+                if ( typeof(type)==="string" && typeof(identification)==="string" && typeof(classification) === "string")
+                {
+                    const maked = document.createElement(type)
+                    maked.setAttribute("id", identification)
+                    maked.setAttribute("class", classification)
+                    if (offset.length != 0) {
+                        for (let i = 0; i < offset.length; i++) {
+                            if (offset[i][1]) {
+                                if (typeof(offset[i][0])==="string" && typeof(offset[i][1])==="string") {
+                                    maked.setAttribute(offset[i][0], offset[i][1])
+                                }
+                                else {
+                                    console.log("In make__elem -> Information for Developer: invalid type or null-object. Must be \[\"type\"\,\"string parameter\"\].")
+                                }
+                            }
+                            else {
+                                if (typeof(offset[i][0])==="string") {
+                                    maked.setAttribute(offset[i][0])
+                                }
+                                else {
+                                    console.log("In make__elem -> Information for Developer: invalid type or null-object. Must be \[\"type\"\].")
+                                }
+                            }
+                        }
+                    }
+                    return maked
+                } else {
+                    console.log("In make__elem -> Information for Developer: invalid type of initial of the parameters. Must be \"string\".")
+                }
+            }
+    </script>
+    <script defer type="text/javascript">
+        window.onload = () => {
+            /* Initial */
+            let window_width = window.innerWidth
+            let window_width_string = window_width.toString() + "px"
+            let window_height = window.innerHeight
+            let window_height_string = window_height.toString() + "px"
+            let half_from_top = window_height / 2
+            let half_from_top_string = half_from_top.toString() + "px"
+            let half_from_left = window_width / 2
+            let half_from_left_string = half_from_left.toString() + "px"
+            let quarter_from_top = half_from_top / 2
+            let quarter_from_top_string = quarter_from_top.toString() + "px"
+            let quarter_from_left = half_from_left / 2
+            let quarter_from_left_string = quarter_from_left.toString() + "px"
+            /*
+                ---placeholder---
+            */
+            /* Elements placing */
+            /* Logo */
+            let logo_margin_top = ((window_height - quarter_from_left) / 2) - (quarter_from_left / 16)
+            let logo_margin_left = quarter_from_left+(quarter_from_left/2)
+            let string_for_logo = "position:absolute;width:"+quarter_from_left_string+";height:auto;margin-top:"+logo_margin_top.toString()+"px;margin-left:"+logo_margin_left.toString()+"px;z-index:100;"
+            let logotype_menu = make__elem("img","logo","global_menu",["src","./logo.png"],["style",string_for_logo+"z-index:100;"+"display:block;"])
+            /*logotype_menu.addEventListener("click", show_badges)*/
+            document.body.appendChild(logotype_menu)
+            /*
+                ---placeholder---
+            */
+            /* Menu */
+            let menu_width = half_from_left
+            let menu_height = half_from_top
+            let menu_margin_top = ((window_height - quarter_from_left) / 2) - (quarter_from_left / 16)
+            let menu_margin_left = quarter_from_left
+            let string_for_menu = "position:absolute;width:"+menu_width+"px;height:"+menu_height+"px;margin-top:"+menu_margin_top.toString()+"px;margin-left:"+menu_margin_left.toString()+"px;"
+            let menu = make__elem("div","menu","global_menu",["style",string_for_menu+"z-index:100;"+"display:block;"])
+            document.body.appendChild(menu)
+            /*
+                ---placeholder---
+            */
+            /* Poster */
+            let poster_height = window_height
+            let poster_width = window_width
+            let string_for_poster = "position:absolute;width:"+poster_width+"px;height:"+poster_height+"px;text-align:center;"
+            let poster = make__elem("div","poster_block","menu",["style",string_for_poster+"z-index:150;"+"display:none;"])
+            /*poster.image*/
+            let poster_image = make__elem("img","poster_image","menu",["src","./aff_next_2.png"],["style","height:100%;width:auto;"])
+            document.body.appendChild(poster)
+            poster.appendChild(poster_image)
+            /*
+                ---placeholder---
+            */
+            /* Buttons for menu */
+                let left_pane = make__elem("div","left_pane","global_menu",["style","float:left;width:50%;height:100%;text-align:left;"])
+                let right_pane = make__elem("div","right_pane","global_menu",["style","float:left;width:50%;height:100%;text-align:right;"])
+                menu.append(left_pane, right_pane)
+                /*poster*/
+                let button_poster = make__elem("button","poster","menu_button")
+                button_poster.innerHTML = "Афіша"
+                button_poster.addEventListener("click", show_poster)
+                /*history*/
+                let button_history = make__elem("button","history","menu_button")
+                button_history.innerHTML = "Історія"
+                /*contacts*/
+                let button_contacts = make__elem("button","contacts","menu_button")
+                button_contacts.innerHTML = "Зв'язок"
+                /*social*/
+                let button_social = make__elem("button","social","menu_button")
+                button_social.innerHTML = "Соціум"
+                left_pane.append(button_poster, button_history)
+                right_pane.append(button_contacts, button_social)
+            /*
+                ---placeholder---
+            */
+            /* Events !!!redo using jQuery!!! */
+            function show_badges ()
+            {
+                let string_for_menu_CHANGED = string_for_menu + "z-index:120;" +"display:block;"
+                menu.setAttribute("style",string_for_menu_CHANGED)
+            }
+            function show_poster ()
+            {
+                let string_for_poster_CHANGED = string_for_poster + "z-index:150;" + "display:block;"
+                poster.setAttribute("style",string_for_poster_CHANGED)
+                poster.addEventListener("click",()=>{
+                    let string_for_poster_CHANGED = string_for_poster + "z-index:150;" + "display:none;"
+                    poster.setAttribute("style",string_for_poster_CHANGED)
+                })
+            }
+        }
+    </script>
+    <style>
+        /* Global assets */
+        * {outline:none;margin:0;padding:0;}
+        body {background:linear-gradient(#222222,#111111);text-align:center;}
+        /* Per class */
+        .menu_button {width:100%;height:50%;text-align:center;background-color:rgba(0,0,0,0);color:#757575;font-family:"Calibri";font-size:24pt;border:none;}
+        /* Per id */
+        #menu {background-color:rgba(0,0,0,0);}
+        #poster {padding-right:50px;}
+        #poster:hover {color:#4677c7;}
+        #history {padding-right:50px;}
+        #history:hover {color:#46c771;}
+        #contacts {padding-left:50px;}
+        #contacts:hover {color:#d4c53f;}
+        #social {padding-left:50px;}
+        #social:hover {color:#c74646;}
+    </style>
+</head>
